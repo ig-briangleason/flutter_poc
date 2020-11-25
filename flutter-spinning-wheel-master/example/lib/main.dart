@@ -161,7 +161,7 @@ class Roulette extends StatelessWidget {
               width: 310,
               height: 310,
               initialSpinAngle: _generateRandomAngle(),
-              spinResistance: 0.6,
+              spinResistance: 0.01,
               canInteractWhileSpinning: false,
               dividers: 8,
               onUpdate: _dividerController.add,

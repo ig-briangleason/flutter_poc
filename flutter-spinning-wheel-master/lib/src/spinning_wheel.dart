@@ -164,8 +164,11 @@ class _SpinningWheelState extends State<SpinningWheel>
 
   _startOrStop(dynamic velocity) {
     if (_animationController.isAnimating) {
+      print("should stop");
+      _animationController.stop();
       _stopAnimation();
     } else {
+      print("should start");
       // velocity is pixels per second in axis Y
       // we asume a drag from cuadrant 1 with high velocity (8000)
       var pixelsPerSecondY = velocity ?? 8000.0;
