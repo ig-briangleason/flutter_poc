@@ -1,0 +1,28 @@
+PODS:
+  - Flutter (1.0.0)
+  - FlutterPluginRegistrant (0.0.1):
+    - Flutter
+  - wheel_module (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `../flutter-spinning-wheel-master/build/wheel_module/.ios/Flutter/engine`)
+  - FlutterPluginRegistrant (from `../flutter-spinning-wheel-master/build/wheel_module/.ios/Flutter/FlutterPluginRegistrant`)
+  - wheel_module (from `../flutter-spinning-wheel-master/build/wheel_module/.ios/Flutter`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: "../flutter-spinning-wheel-master/build/wheel_module/.ios/Flutter/engine"
+  FlutterPluginRegistrant:
+    :path: "../flutter-spinning-wheel-master/build/wheel_module/.ios/Flutter/FlutterPluginRegistrant"
+  wheel_module:
+    :path: "../flutter-spinning-wheel-master/build/wheel_module/.ios/Flutter"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  FlutterPluginRegistrant: d59dd07dd90e9c6430996073575a5bd1ea19677e
+  wheel_module: 33939da2d0e980045cc394364d80af0ee9fcd7cb
+
+PODFILE CHECKSUM: c3bd2ceaaf7e3b90f20189cbf33d2aaea02f6a2a
+
+COCOAPODS: 1.8.4
