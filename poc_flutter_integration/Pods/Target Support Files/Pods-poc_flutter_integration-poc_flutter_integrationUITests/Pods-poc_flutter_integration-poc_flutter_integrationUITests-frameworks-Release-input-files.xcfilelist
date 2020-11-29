@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-poc_flutter_integration-poc_flutter_integrationUITests/Pods-poc_flutter_integration-poc_flutter_integrationUITests-frameworks.sh
+${PODS_ROOT}/../../flutter_wheel/.ios/Flutter/engine/Flutter.framework
+${PODS_ROOT}/../../flutter_wheel/.ios/Flutter/App.framework

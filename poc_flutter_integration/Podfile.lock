@@ -1,0 +1,28 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_wheel (0.0.1):
+    - Flutter
+  - FlutterPluginRegistrant (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `../flutter_wheel/.ios/Flutter/engine`)
+  - flutter_wheel (from `../flutter_wheel/.ios/Flutter`)
+  - FlutterPluginRegistrant (from `../flutter_wheel/.ios/Flutter/FlutterPluginRegistrant`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: "../flutter_wheel/.ios/Flutter/engine"
+  flutter_wheel:
+    :path: "../flutter_wheel/.ios/Flutter"
+  FlutterPluginRegistrant:
+    :path: "../flutter_wheel/.ios/Flutter/FlutterPluginRegistrant"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_wheel: 566995adfe23340e625abc752360585e6ea62208
+  FlutterPluginRegistrant: d59dd07dd90e9c6430996073575a5bd1ea19677e
+
+PODFILE CHECKSUM: 1b55b156daa3db34a0ec461e14a0a002f92c0e4b
+
+COCOAPODS: 1.8.4
