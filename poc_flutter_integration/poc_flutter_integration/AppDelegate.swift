@@ -11,6 +11,15 @@ class AppDelegate: FlutterAppDelegate {
         self.flutterEngine = FlutterEngine(name: "io.flutter", project: nil);
         self.flutterEngine?.run(withEntrypoint: nil);
         GeneratedPluginRegistrant.register(with: self.flutterEngine!);
+        
+        if let rootViewController : FlutterViewController = window?.rootViewController as? FlutterViewController {
+            let channelName = "com.flutter_wheel.channel"
+            let methodChannel = FlutterMethodChannel(name: channelName, binaryMessenger: rootViewController.binaryMessenger)
+
+            methodChannel.invokeMethod("didRecieveTranscript", arguments: 100)
+        }
+
+        
         return super.application(application, didFinishLaunchingWithOptions: launchOptions);
     }
 

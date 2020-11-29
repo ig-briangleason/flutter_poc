@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_wheel/flutter_spinning_wheel.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MyApp());
 }
@@ -142,6 +143,8 @@ class Roulette extends StatelessWidget {
 
   final _wheelNotifier = StreamController<double>();
 
+  static const platform = const MethodChannel('com.flutter_wheel.channel');
+
   dispose() {
     _dividerController.close();
     _wheelNotifier.close();
@@ -149,6 +152,8 @@ class Roulette extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    platform.setMethodCallHandler(_receiveFromHost);
+
     return Scaffold(
       appBar: AppBar(backgroundColor: Color(0xffDDC3FF), elevation: 0.0),
       backgroundColor: Color(0xffDDC3FF),
@@ -193,6 +198,17 @@ class Roulette extends StatelessWidget {
   double _generateRandomVelocity() => (Random().nextDouble() * 6000) + 2000;
 
   double _generateRandomAngle() => Random().nextDouble() * pi * 2;
+
+  Future<void> _receiveFromHost(MethodCall call) async {
+    print("Received Data From iOS");
+    print(call);
+    print(call.arguments);
+    if (call.method == 'startstopwheel') {
+      _wheelNotifier.sink.add(_generateRandomVelocity());
+    } else {
+      print("Unrecognized function" + call.method);
+    }
+  }
 }
 
 class RouletteScore extends StatelessWidget {

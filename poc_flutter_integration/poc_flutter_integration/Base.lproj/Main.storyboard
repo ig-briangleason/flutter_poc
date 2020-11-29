@@ -22,11 +22,14 @@
                                     <constraint firstAttribute="height" constant="45" id="qjt-Fy-As4"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="spinButton:" destination="BYZ-38-t0r" eventType="touchDown" id="rts-mQ-2qW"/>
+                                </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LvC-66-ckY">
                                 <rect key="frame" x="0.0" y="129" width="414" height="733"/>
                                 <connections>
-                                    <segue destination="TRj-f4-gMd" kind="embed" id="QEt-6c-0Bh"/>
+                                    <segue destination="TRj-f4-gMd" kind="embed" identifier="flutter_vc_segue" id="QEt-6c-0Bh"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -54,6 +57,7 @@
                     <view key="view" contentMode="scaleToFill" id="ZTM-5r-Mzr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="733"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="XmE-Ub-DVt"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                 </viewController>
