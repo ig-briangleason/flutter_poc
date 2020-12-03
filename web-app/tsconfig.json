@@ -1,26 +1,48 @@
 {
-  "compilerOptions": {
-    "jsx": "react",
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true
-  },
-  "include": [
-    "src"
-  ]
+    "compilerOptions": {
+        "jsx": "react",
+        "module": "commonjs",
+        "target": "es5",
+        "allowJs": true,
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "sourceMap": true,
+        "skipLibCheck": true,
+        "strictNullChecks": true,
+        "outDir": "./dist/public/",
+        "lib": [
+            "es2015",
+            "dom",
+            "es6"
+        ],
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "@Server/*": [
+                "server/*"
+            ],
+            "@Client/*": [
+                "client/*"
+            ],
+            "@Routes/*": [
+                "server/routes/*"
+            ],
+            "@Repository/*": [
+                "server/repository/*"
+            ],
+            "@Controllers/*": [
+                "server/controllers/*"
+            ],
+            "@Managers/*": [
+                "server/managers/*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "bin",
+        "dist"
+    ]
 }

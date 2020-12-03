@@ -1,0 +1,5 @@
+-c
+--timeout 15000
+--compilers ts:ts-node/register,tsx:ts-node/register
+--require tsconfig-paths/register
+--recursive

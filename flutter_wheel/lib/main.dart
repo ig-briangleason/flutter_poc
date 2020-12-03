@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_wheel/flutter_spinning_wheel.dart';
+// import 'package:web_socket_channel/io.dart';
+
 // import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
@@ -23,6 +25,15 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// JavascriptChannel _receiveData(BuildContext context) {
+//   return JavascriptChannel(
+//      name: 'Barcode',
+//      onMessageReceived: (JavascriptMessage message) {
+//        print("Context: " + context.toString());
+//        print("Message: " + message.toString());
+//      });
+// }
 
 class MyHomePage extends StatelessWidget {
   @override
@@ -145,6 +156,9 @@ class Roulette extends StatelessWidget {
   final _wheelNotifier = StreamController<double>();
 
   static const platform = const MethodChannel('com.flutter_wheel.channel');
+  // final channel = IOWebSocketChannel.connect('ws://echo.websocket.org');
+
+  
 
   dispose() {
     _dividerController.close();
@@ -155,10 +169,22 @@ class Roulette extends StatelessWidget {
   Widget build(BuildContext context) {
     platform.setMethodCallHandler(_receiveFromHost);
 
+    // html.window.onMessage.listen((event) {
+
+    //   print('Message Received' + event.toString());
+
+    //   // do something with received data
+    //   // myController.text = event.data; 
+
+    //   // return a response
+    //   event.ports[0].postMessage("response data");
+    // });
+
     return Scaffold(
       appBar: AppBar(backgroundColor: Color(0xffDDC3FF), elevation: 0.0),
       backgroundColor: Color(0xffDDC3FF),
-      body: Center(
+      body: 
+      Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
