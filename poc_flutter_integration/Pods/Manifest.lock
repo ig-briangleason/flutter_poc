@@ -20,8 +20,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_wheel: 566995adfe23340e625abc752360585e6ea62208
-  FlutterPluginRegistrant: d59dd07dd90e9c6430996073575a5bd1ea19677e
+  flutter_wheel: 1181c34b943fcf2ba46452ceb7fa2b9c2de88181
+  FlutterPluginRegistrant: 2afd5ea46d3a949472c9b7da6462d8fbf7d8b16e
 
 PODFILE CHECKSUM: 1b55b156daa3db34a0ec461e14a0a002f92c0e4b
 
