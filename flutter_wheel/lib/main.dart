@@ -1,5 +1,4 @@
-@JS()
-library javascript_bundler;
+
 
 import 'dart:async';
 import 'dart:math';
@@ -7,27 +6,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_wheel/flutter_spinning_wheel.dart';
+
+import 'basic_score.dart';
+import 'src/roulette.dart';
 // import 'package:web_socket_channel/io.dart';
 
 // import 'package:webview_flutter/webview_flutter.dart';
 
-import 'package:js/js.dart';
-
-/// Allows assigning a function to be callable from `window.functionName()`
-@JS('functionName')
-external set _functionName(void Function() f);
-
-/// Allows calling the assigned function from Dart as well.
-@JS()
-external void functionName();
-
-void _someDartFunction() {
-  print('Hello from Dart!');
-}
-
 void main() {
-  _functionName = allowInterop(_someDartFunction);
-  // JavaScript code may now call `functionName()` or `window.functionName()`.
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MyApp());
@@ -45,15 +31,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// JavascriptChannel _receiveData(BuildContext context) {
-//   return JavascriptChannel(
-//      name: 'Barcode',
-//      onMessageReceived: (JavascriptMessage message) {
-//        print("Context: " + context.toString());
-//        print("Message: " + message.toString());
-//      });
-// }
 
 class MyHomePage extends StatelessWidget {
   @override
@@ -147,135 +124,4 @@ class Basic extends StatelessWidget {
   }
 
   double _generateRandomAngle() => Random().nextDouble() * pi * 2;
-}
-
-class BasicScore extends StatelessWidget {
-  final int selected;
-
-  final Map<int, String> labels = {
-    1: 'Purple',
-    2: 'Magenta',
-    3: 'Red',
-    4: 'Dark Orange',
-    5: 'Light Orange',
-    6: 'Yellow',
-  };
-
-  BasicScore(this.selected);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text('${labels[selected]}',
-        style: TextStyle(fontStyle: FontStyle.italic));
-  }
-}
-
-  @JS('spinWheel')
-  external set _spinWheel(void Function(int) f);
-class Roulette extends StatelessWidget {
-
-
-  final StreamController _dividerController = StreamController<int>();
-
-  final _wheelNotifier = StreamController<double>();
-
-  static const platform = const MethodChannel('com.flutter_wheel.channel');
-  // final channel = IOWebSocketChannel.connect('ws://echo.websocket.org');
-
-  
-
-  dispose() {
-    _dividerController.close();
-    _wheelNotifier.close();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-      _spinWheel = allowInterop(spinWheelFunc);
-    platform.setMethodCallHandler(_receiveFromHost);
-
-    return Scaffold(
-      appBar: AppBar(backgroundColor: Color(0xffDDC3FF), elevation: 0.0),
-      backgroundColor: Color(0xffDDC3FF),
-      body: 
-      Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SpinningWheel(
-              Image.asset('assets/images/roulette-8-300.png'),
-              width: 310,
-              height: 310,
-              initialSpinAngle: _generateRandomAngle(),
-              spinResistance: 0.01,
-              canInteractWhileSpinning: false,
-              dividers: 8,
-              onUpdate: _dividerController.add,
-              onEnd: _dividerController.add,
-              secondaryImage:
-                  Image.asset('assets/images/roulette-center-300.png'),
-              secondaryImageHeight: 110,
-              secondaryImageWidth: 110,
-              shouldStartOrStop: _wheelNotifier.stream,
-            ),
-            SizedBox(height: 30),
-            StreamBuilder(
-              stream: _dividerController.stream,
-              builder: (context, snapshot) =>
-                  snapshot.hasData ? RouletteScore(snapshot.data) : Container(),
-            ),
-            SizedBox(height: 30),
-            new RaisedButton(
-              child: new Text("Start"),
-              onPressed: () =>
-                  _wheelNotifier.sink.add(_generateRandomVelocity()),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  double _generateRandomVelocity() => (Random().nextDouble() * 6000) + 2000;
-
-  double _generateRandomAngle() => Random().nextDouble() * pi * 2;
-
-  void spinWheelFunc(int prizeID) {
-    print("Prize ID" + prizeID.toString());
-    _wheelNotifier.sink.add(_generateRandomVelocity());
-  }
-
-  Future<void> _receiveFromHost(MethodCall call) async {
-    print("Received Data From iOS");
-    print(call);
-    print(call.arguments);
-    if (call.method == 'startstopwheel') {
-      _wheelNotifier.sink.add(_generateRandomVelocity());
-    } else {
-      print("Unrecognized function" + call.method);
-    }
-  }
-}
-
-class RouletteScore extends StatelessWidget {
-  final int selected;
-
-  final Map<int, String> labels = {
-    1: '1000\$',
-    2: '400\$',
-    3: '800\$',
-    4: '7000\$',
-    5: '5000\$',
-    6: '300\$',
-    7: '2000\$',
-    8: '100\$',
-  };
-
-  RouletteScore(this.selected);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text('${labels[selected]}',
-        style: TextStyle(fontStyle: FontStyle.italic, fontSize: 24.0));
-  }
 }
