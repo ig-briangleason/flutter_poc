@@ -20,7 +20,10 @@ function buttonClick() {
 
   let ele: HTMLIFrameElement = element as HTMLIFrameElement;
   ele.contentWindow?.postMessage("Test Message From Parent", "/");
-  console.log('element', ele.contentWindow);
+  ele.contentWindow?.postMessage("spinWheel", "/");
+  const win: any = ele.contentWindow;
+  win.spinWheel();
+  console.log('element: ', ele.contentWindow);
   // let somet = element?.contentDocument
   // wn.postMessage('Hello to iframe from parent!', 'http://www.example.com');
 

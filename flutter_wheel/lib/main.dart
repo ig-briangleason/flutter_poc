@@ -1,3 +1,6 @@
+@JS()
+library javascript_bundler;
+
 import 'dart:async';
 import 'dart:math';
 
@@ -8,13 +11,30 @@ import 'package:flutter_wheel/flutter_spinning_wheel.dart';
 
 // import 'package:webview_flutter/webview_flutter.dart';
 
+import 'package:js/js.dart';
+
+/// Allows assigning a function to be callable from `window.functionName()`
+@JS('functionName')
+external set _functionName(void Function() f);
+
+/// Allows calling the assigned function from Dart as well.
+@JS()
+external void functionName();
+
+void _someDartFunction() {
+  print('Hello from Dart!');
+}
+
 void main() {
+  _functionName = allowInterop(_someDartFunction);
+  // JavaScript code may now call `functionName()` or `window.functionName()`.
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -150,7 +170,11 @@ class BasicScore extends StatelessWidget {
   }
 }
 
+  @JS('spinWheel')
+  external set _spinWheel(void Function() f);
 class Roulette extends StatelessWidget {
+
+
   final StreamController _dividerController = StreamController<int>();
 
   final _wheelNotifier = StreamController<double>();
@@ -167,6 +191,7 @@ class Roulette extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      _spinWheel = allowInterop(spinWheelFunc);
     platform.setMethodCallHandler(_receiveFromHost);
 
     // html.window.onMessage.listen((event) {
@@ -225,6 +250,10 @@ class Roulette extends StatelessWidget {
   double _generateRandomVelocity() => (Random().nextDouble() * 6000) + 2000;
 
   double _generateRandomAngle() => Random().nextDouble() * pi * 2;
+
+  void spinWheelFunc() {
+      _wheelNotifier.sink.add(_generateRandomVelocity());
+  }
 
   Future<void> _receiveFromHost(MethodCall call) async {
     print("Received Data From iOS");
