@@ -1,0 +1,8 @@
+mixin write-device-type-to-browser(deviceType)
+    script.
+        // exposes a global variable window.deviceTypeDetails that describes the request device type 
+        (function (window) {
+          const deviceType = !{deviceType};
+          window.deviceTypeDetails = deviceType;
+          window.deviceType = deviceType.experience + "_" + deviceType.formFactor + "_" + deviceType.platform;
+        })(window);

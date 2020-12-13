@@ -1,0 +1,19 @@
+version: "3"
+services:
+  db:
+    image: "postgres:11"
+    container_name: "ig-postgres"
+    ports:
+      - "5432:5432"
+    volumes:
+      - .dbdata:/var/lib/postgresql/data
+#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  .dbdata:

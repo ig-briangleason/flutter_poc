@@ -1,0 +1,6 @@
+framework module Pods_poc_flutter_integration {
+  umbrella header "Pods-poc_flutter_integration-umbrella.h"
+
+  export *
+  module * { export * }
+}

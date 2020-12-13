@@ -1,0 +1,18 @@
+include ./write-device-type-to-browser.pug
+
+doctype html
+
+html
+    head
+        title Flutter
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+
+        script(type='text/javascript', src=`../flutter/flutter-source/main.dart.js`, async, defer)
+        +write-device-type-to-browser(deviceType)
+        link(href=cssUrl rel="stylesheet")
+
+
+    body
+        div(id=mainId)
+        //- script(src=jsUrl)

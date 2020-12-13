@@ -1,0 +1,75 @@
+include ./write-device-type-to-browser.pug
+
+doctype html
+
+html
+    head
+        title IG Starter Kit
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+
+        +write-device-type-to-browser(deviceType)
+        link(href=cssUrl rel="stylesheet")
+
+
+    body
+        div(id=mainId)
+
+        if !gitDetailsHidden && gitInfo
+            style.
+                #git-details {
+                    background: #def;
+                    display: flex;
+                    justify-content: center;
+                    padding: 14px 0;
+                    border-top: 1px solid #8da4da;
+                    font-family: "Open Sans";
+                }
+
+                #git-details p {
+                    margin: 0;
+                    padding: 0;
+                    padding-right: 14px;
+                    font-weight: bold;
+                    font-size: 13px;
+                    text-transform: uppercase;
+                    color: #5d5d5d;
+                }
+
+                #git-details .git-title {
+                    font-weight: 400;
+                    text-transform: none;
+                }
+
+                #git-details p span {
+                    margin-left: 4px;
+                    padding: 4px 10px;
+                    color: #4993D7;
+                    font-size: 0.875em;
+                    font-weight: 600;
+                }
+
+                #git-details p a {
+                    margin-left: 4px;
+                    padding: 4px 10px;
+                    color: #4993D7;
+                    font-size: 0.875em;
+                    font-weight: 600;
+                }
+
+                #git-details p:first-child {}
+
+            div(id="git-details")
+                p Branch:
+                    if gitInfo.gitRepoUrl
+                        a(target="_blank" href=gitInfo.gitRepoUrl + "/commits/" + gitInfo.currentBranch) #{gitInfo.currentBranch}
+                    else
+                        span #{gitInfo.currentBranch}
+
+                p Hash:
+                    if gitInfo.gitRepoUrl
+                        a(target="_blank" href=gitInfo.gitRepoUrl + "/commit/" + gitInfo.fullHash) #{gitInfo.currentHash}
+                    else
+                        span #{gitInfo.currentHash}
+
+        script(src=jsUrl)

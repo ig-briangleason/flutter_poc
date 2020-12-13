@@ -1,0 +1,108 @@
+version: 2
+jobs:
+  build-job:
+    docker:
+      - image: circleci/node:6.11.1
+        environment:
+          PGHOST: localhost
+          PGUSER: dev        
+          NODE_ENV: test
+          TZ: "/usr/share/zoneinfo/America/Detroit"
+      - image: circleci/postgres:10.5
+        environment:
+          POSTGRES_USER: dev
+          POSTGRES_PASSWORD: dev
+          POSTGRES_DB: tml-test
+          TZ: "/usr/share/zoneinfo/America/Detroit"          
+    steps:
+      - checkout
+      - run:
+          name: Update Repositories
+          command: sudo apt-get update
+      - run:
+          name: Install Postgres client
+          command: sudo apt install postgresql-client
+      - run:
+          name: Wait for Postgres connection
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}
+            - yarn-packages-master
+            - yarn-packages-
+      - run:
+          name: Install Dependencies
+          command: yarn
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules/
+      - run:
+          name: Build
+          command: yarn build
+      - run:
+          name: Lint
+          command: yarn lint
+      - run:
+          name: Migrate Database
+          command: yarn migrate:up
+      - run:
+          name: Test
+          command: yarn test
+
+  deploy-prod:
+    docker:
+      - image: circleci/node:6.11.1
+    steps:
+      - checkout
+      - run:
+          name: Setup Heroku
+          command: |
+            bash .circleci/setup-heroku.sh
+            heroku config:set GIT_HASH=`git rev-parse --short HEAD` --app tml-web-prod
+            heroku config:set GIT_BRANCH=`git rev-parse --abbrev-ref HEAD` --app tml-web-prod
+      - run:
+          name: Deploy
+          command: git push --force git@heroku.com:tml-web-prod.git $CIRCLE_SHA1:refs/heads/master
+      - run:
+          name: Migrate Database
+          command: heroku run yarn migrate:up --app tml-web-prod
+
+  deploy-staging:
+    docker:
+      - image: circleci/node:6.11.1
+    steps:
+      - checkout
+      - run:
+          name: Setup Heroku
+          command: |
+            bash .circleci/setup-heroku.sh
+            heroku config:set GIT_HASH=`git rev-parse --short HEAD` --app tml-web-staging
+            heroku config:set GIT_BRANCH=`git rev-parse --abbrev-ref HEAD` --app tml-web-staging
+      - run:
+          name: Deploy
+          command: git push --force git@heroku.com:tml-web-staging.git $CIRCLE_SHA1:refs/heads/master
+      - run:
+          name: Migrate Database
+          command: heroku run yarn migrate:up --app tml-web-staging          
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build-job
+      - deploy-staging:
+          requires:
+            - build-job
+          filters:
+            branches:
+              only: staging
+      - deploy-prod:
+          requires:
+            - build-job
+          filters:
+            branches:
+              only: master

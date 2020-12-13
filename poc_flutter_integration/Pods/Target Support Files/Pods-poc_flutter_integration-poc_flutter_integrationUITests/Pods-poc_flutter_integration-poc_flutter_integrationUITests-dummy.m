@@ -1,0 +1,5 @@
+#import <Foundation/Foundation.h>
+@interface PodsDummy_Pods_poc_flutter_integration_poc_flutter_integrationUITests : NSObject
+@end
+@implementation PodsDummy_Pods_poc_flutter_integration_poc_flutter_integrationUITests
+@end

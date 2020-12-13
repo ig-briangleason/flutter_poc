@@ -1,0 +1,23 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'poc_flutter_integration' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for poc_flutter_integration
+  flutter_application_path = '../flutter_wheel'
+  load File.join(flutter_application_path, '.ios', 'Flutter', 'podhelper.rb')
+
+  install_all_flutter_pods(flutter_application_path)
+
+  target 'poc_flutter_integrationTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'poc_flutter_integrationUITests' do
+    # Pods for testing
+  end
+
+end
