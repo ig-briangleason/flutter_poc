@@ -2,6 +2,10 @@ import * as React from "react";
 import { FlutterAnimation } from "../flutter";
 require("./styles.scss");
 
+interface FlutterWindow extends Window {
+  spinWheel: (num: number) => void;
+}
+
 export default class HomePage extends React.Component<{}, {}> {
   render() {
     return (
@@ -16,15 +20,7 @@ export default class HomePage extends React.Component<{}, {}> {
 }
 
 function buttonClick() {
-  let element = document.getElementById('embeddedFlutter');
-
-  let ele: HTMLIFrameElement = element as HTMLIFrameElement;
-  ele.contentWindow?.postMessage("Test Message From Parent", "/");
-  ele.contentWindow?.postMessage("spinWheel", "/");
-  const win: any = ele.contentWindow;
-  win.spinWheel();
-  console.log('element: ', ele.contentWindow);
-  // let somet = element?.contentDocument
-  // wn.postMessage('Hello to iframe from parent!', 'http://www.example.com');
-
+  let element = document.getElementById('embeddedFlutter') as HTMLIFrameElement;
+  const win = element.contentWindow as FlutterWindow;
+  win.spinWheel(1012);
 }

@@ -171,7 +171,7 @@ class BasicScore extends StatelessWidget {
 }
 
   @JS('spinWheel')
-  external set _spinWheel(void Function() f);
+  external set _spinWheel(void Function(int) f);
 class Roulette extends StatelessWidget {
 
 
@@ -193,17 +193,6 @@ class Roulette extends StatelessWidget {
   Widget build(BuildContext context) {
       _spinWheel = allowInterop(spinWheelFunc);
     platform.setMethodCallHandler(_receiveFromHost);
-
-    // html.window.onMessage.listen((event) {
-
-    //   print('Message Received' + event.toString());
-
-    //   // do something with received data
-    //   // myController.text = event.data; 
-
-    //   // return a response
-    //   event.ports[0].postMessage("response data");
-    // });
 
     return Scaffold(
       appBar: AppBar(backgroundColor: Color(0xffDDC3FF), elevation: 0.0),
@@ -251,8 +240,9 @@ class Roulette extends StatelessWidget {
 
   double _generateRandomAngle() => Random().nextDouble() * pi * 2;
 
-  void spinWheelFunc() {
-      _wheelNotifier.sink.add(_generateRandomVelocity());
+  void spinWheelFunc(int prizeID) {
+    print("Prize ID" + prizeID.toString());
+    _wheelNotifier.sink.add(_generateRandomVelocity());
   }
 
   Future<void> _receiveFromHost(MethodCall call) async {
